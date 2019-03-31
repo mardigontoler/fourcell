@@ -65,15 +65,17 @@ class Card:
             self.color = Screen.COLOUR_RED
 
     def __str__(self):
-        text = str(self.value)
-        if text == '1':
+        text = None
+        if self.value == 1:
             text = 'A'
-        if text == '11':
+        elif self.value == 11:
             text = 'J'
-        if text ==' 12':
+        elif self.value == 12:
             text = 'Q'
-        if text == '13':
+        elif self.value == 13:
             text = 'K'
+        else:
+            text = str(self.value)
         return text + self.suit.value
 
 class IllegalMove(Exception):
