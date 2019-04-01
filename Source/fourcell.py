@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 
 from enum import Enum
 import random
+from time import sleep
 
 # gui made with asciimatics
 from asciimatics.effects import Cycle, Stars
@@ -165,7 +167,7 @@ class FreeCellGame:
                         raise IllegalMove
                 else:
                     currentTop = self.foundations[destInd][-1]
-                    if currentTop.suit == sourceCard.suit and sourceCard.value == currenTop.value + 1:
+                    if currentTop.suit == sourceCard.suit and sourceCard.value == currentTop.value + 1:
                         self.foundations[destInd].append(sourceStack.pop())
                     else:
                         raise IllegalMove
@@ -175,6 +177,10 @@ class FreeCellGame:
         finally:
             move.clear() # reset
 
+
+
+
+            
 def playGame(screen):
 
     game = FreeCellGame()
@@ -204,7 +210,7 @@ def playGame(screen):
         renderTable(screen, game.table)
         
         screen.refresh()
-
+        sleep(.1)
 
 
 def renderTable(screen,table):
