@@ -50,6 +50,8 @@ foundationskeybinds = {
     'p':3
     }
 
+bgColor = Screen.COLOUR_BLACK
+    
 class Suit(Enum):
     SPADES = '♠'
     HEARTS = '♥'
@@ -182,12 +184,12 @@ class FreeCellGame:
 
             
 def playGame(screen):
-
+    screen.clear()
     game = FreeCellGame()
     move = [] # store 2 moves
     oldMove = None # copy of last inputs to show user
     while True:
-        screen.clear()
+        renderBackground(screen)
         ev = screen.get_event()
         key = None
         try:
@@ -205,8 +207,8 @@ def playGame(screen):
         if len(move) == 2:
             game.attemptMove(move)
         
-        #renderFreeCells(screen, game.freecells)
-        #renderFoundations(screen, game.foundations)
+        renderFreeCells(screen, game.freecells)
+        renderFoundations(screen, game.foundations)
         renderTable(screen, game.table)
         
         screen.refresh()
@@ -261,6 +263,11 @@ def renderFoundations(screen, foundations):
                         xOffset + x * xSpacePerCard, yOffset,
                         toColor)
 
+def renderBackground(screen):
+    height = screen.dimensions[0]
+    width = screen.dimensions[1]
+    polygon = [(0,0),(width,0),(width,height),(0,height)]
+    screen.fill_polygon([polygon],colour=bgColor)
         
 if __name__ == '__main__':
     # use asciimatics to render the game
