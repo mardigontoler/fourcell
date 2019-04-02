@@ -205,12 +205,11 @@ def playGame(screen):
         if len(move) == 2:
             game.attemptMove(move)
         
-        renderFreeCells(screen, game.freecells)
-        renderFoundations(screen, game.foundations)
+        #renderFreeCells(screen, game.freecells)
+        #renderFoundations(screen, game.foundations)
         renderTable(screen, game.table)
         
         screen.refresh()
-        sleep(.1)
 
 
 def renderTable(screen,table):
