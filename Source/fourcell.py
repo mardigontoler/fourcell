@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from enum import Enum
-import random
 from time import sleep
+
+import random
+import logging
+import logging.handlers
 
 # gui made with asciimatics
 from asciimatics.effects import Cycle, Stars
@@ -51,6 +54,13 @@ foundationskeybinds = {
     }
 
 bgColor = Screen.COLOUR_BLACK
+
+LOG_FILENAME = 'fourcell_log'
+fourcellLogger = logging.getLogger('fourcell')
+fourcellLogger.setLevel(logging.DEBUG)
+fourcellLogHandler = logging.handlers.RotatingFileHandler(
+                LOG_FILENAME, maxBytes = 1000000, )
+fourcellLogger.addHandler(fourcellLogHandler)
     
 class Suit(Enum):
     SPADES = '♠'
@@ -189,7 +199,6 @@ def playGame(screen):
     move = [] # store 2 moves
     oldMove = None # copy of last inputs to show user
     while True:
-        renderBackground(screen)
         ev = screen.get_event()
         key = None
         try:
@@ -207,6 +216,7 @@ def playGame(screen):
         if len(move) == 2:
             game.attemptMove(move)
         
+        renderBackground(screen)
         renderFreeCells(screen, game.freecells)
         renderFoundations(screen, game.foundations)
         renderTable(screen, game.table)
@@ -271,4 +281,10 @@ def renderBackground(screen):
         
 if __name__ == '__main__':
     # use asciimatics to render the game
-    Screen.wrapper(playGame)
+    try:
+        Screen.wrapper(playGame)
+    except Exception as e:
+        fourcellLogger.debug(e)
+        exit()
+    except KeyboardInterrupt:
+        exit()
